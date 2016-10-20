@@ -14,10 +14,13 @@ _logger = logging.getLogger(__name__)
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 
-	@api.onchange('state')
-	def _check_state(self):
-		if self.state in ['purchase','done']:
-			import pdb;pdb.set_trace()
+
+	@api.multi
+	def write(self, vals):
+		purchase_state = vals.get('state','')
+		res = super(purchase_order,self).write(vals)
+		import pdb;pdb.set_trace()
+		if purchase_state in ['purchase','done']:
 			for line in self.order_line:
 				pricelist_id = self.env['product.supplierinfo'].search([\
 					('name','=',self.partner_id.id),\
