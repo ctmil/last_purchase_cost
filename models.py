@@ -57,3 +57,8 @@ class account_invoice(models.Model):
 					pricelist_id = self.env['product.supplierinfo'].create(vals)
 				else:
 					pricelist_id.write(vals)
+				vals_product_tmpl = {
+					'standard_price': line.price_unit
+					}
+				product_tmpl = line.product_id.product_tmpl_id
+				product_tmpl.write(vals_product_tmpl)
