@@ -23,10 +23,10 @@ class purchase_order(models.Model):
 			for line in self.order_line:
 				pricelist_id = self.env['product.supplierinfo'].search([\
 					('name','=',self.partner_id.id),\
-					('product_tmpl_id','=',self.product_id.product_tmpl_id.id)])
+					('product_tmpl_id','=',line.product_id.product_tmpl_id.id)])
 				vals = {
 					'name': self.partner_id.id,
-					'product_tmpl_id': self.product_id.product_tmpl_id.id,
+					'product_tmpl_id': line.product_id.product_tmpl_id.id,
 					'min_qty': 0,
 					'price': line.price_unit
 					}
