@@ -62,3 +62,28 @@ class account_invoice(models.Model):
 					}
 				product_tmpl = line.product_id.product_tmpl_id
 				product_tmpl.write(vals_product_tmpl)
+
+class purchase_requisition(models.Model):
+	_inherit = 'purchase.requisition'
+
+	@api.multi
+	def write(self,vals)
+		requisition_state = vals.get('state','')
+		res = super(purchase_requisition,self).write(vals)
+		if requisition_state in ['done']:
+			for purchase in self.purchase_ids:
+				 if purchase.state == 'cancel':
+					for line in purchase.order_line:
+						pricelist_id = self.env['product.supplierinfo'].search([\
+							('name','=',purchase.partner_id.id),\
+							('product_tmpl_id','=',line.product_id.product_tmpl_id.id)])
+						vals = {
+							'name': self.partner_id.id,
+							'product_tmpl_id': line.product_id.product_tmpl_id.id,
+							'min_qty': 0,
+							'price': line.price_unit
+							}
+						if not pricelist_id:
+							pricelist_id = self.env['product.supplierinfo'].create(vals)
+						else:
+							pricelist_id.write(vals)
