@@ -67,7 +67,7 @@ class purchase_requisition(models.Model):
 	_inherit = 'purchase.requisition'
 
 	@api.multi
-	def write(self,vals)
+	def write(self,vals):
 		requisition_state = vals.get('state','')
 		res = super(purchase_requisition,self).write(vals)
 		if requisition_state in ['done']:
