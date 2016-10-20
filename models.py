@@ -34,3 +34,26 @@ class purchase_order(models.Model):
 					pricelist_id = self.env['product.supplierinfo'].create(vals)
 				else:
 					pricelist_id.write(vals)
+class account_invoice(models.Model):
+	_inherit = 'account.invoice'
+
+
+	@api.multi
+	def write(self, vals):
+		invoice_state = vals.get('state','')
+		res = super(account_invoice,self).write(vals)
+		if invoice_state in ['open']:
+			for line in self.invoice_line_ids:
+				pricelist_id = self.env['product.supplierinfo'].search([\
+					('name','=',self.partner_id.id),\
+					('product_tmpl_id','=',line.product_id.product_tmpl_id.id)])
+				vals = {
+					'name': self.partner_id.id,
+					'product_tmpl_id': line.product_id.product_tmpl_id.id,
+					'min_qty': 0,
+					'price': line.price_unit
+					}
+				if not pricelist_id:
+					pricelist_id = self.env['product.supplierinfo'].create(vals)
+				else:
+					pricelist_id.write(vals)
