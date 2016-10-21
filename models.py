@@ -78,7 +78,7 @@ class purchase_requisition(models.Model):
 							('name','=',purchase.partner_id.id),\
 							('product_tmpl_id','=',line.product_id.product_tmpl_id.id)])
 						vals = {
-							'name': self.partner_id.id,
+							'name': purchase.partner_id.id,
 							'product_tmpl_id': line.product_id.product_tmpl_id.id,
 							'min_qty': 0,
 							'price': line.price_unit
