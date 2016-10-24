@@ -36,11 +36,6 @@ class purchase_order(models.Model):
 					pricelist_id = self.env['product.supplierinfo'].create(vals)
 				else:
 					pricelist_id.write(vals)
-				vals_product_tmpl = {
-					'standard_price': line['price_unit']
-					}
-				product_tmpl = product_id.product_tmpl_id
-				product_tmpl.write(vals_product_tmpl)
 
 		return res
 
@@ -66,11 +61,12 @@ class purchase_order(models.Model):
 					pricelist_id = self.env['product.supplierinfo'].create(vals)
 				else:
 					pricelist_id.write(vals)
-				vals_product_tmpl = {
-					'standard_price': line.price_unit
-					}
-				product_tmpl = line.product_id.product_tmpl_id
-				product_tmpl.write(vals_product_tmpl)
+				if purchase_state in ['purchase','done']:
+					vals_product_tmpl = {
+						'standard_price': line.price_unit
+						}
+					product_tmpl = line.product_id.product_tmpl_id
+					product_tmpl.write(vals_product_tmpl)
 		return res
 
 class account_invoice(models.Model):
