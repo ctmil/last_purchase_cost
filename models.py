@@ -17,10 +17,10 @@ class purchase_order(models.Model):
 	@api.model
 	def create(self, vals):
 	        res = super(purchase_order, self).create(vals)
-		import pdb;pdb.set_trace()
 		purchase_state = res.state
 		if purchase_state in ['draft','purchase','done']:
-			for line in self.order_line:
+			order_line = vals.get('order_line',False)
+			for line in order_line:
 				pricelist_id = self.env['product.supplierinfo'].search([\
 					('name','=',self.partner_id.id),\
 					('product_tmpl_id','=',line.product_id.product_tmpl_id.id)])
