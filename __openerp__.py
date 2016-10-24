@@ -27,7 +27,7 @@
     'license': 'AGPL-3',
     'depends': ['product','account','purchase','purchase_requisition'],
     'data': [
-	#'project_view.xml',
+	'account_view.xml',
 	#'security/ir.model.access.csv',
 	#'security/security.xml'
     ],
