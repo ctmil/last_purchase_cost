@@ -19,7 +19,7 @@ class purchase_order(models.Model):
 	def write(self, vals):
 		purchase_state = vals.get('state','')
 		res = super(purchase_order,self).write(vals)
-		if purchase_state in ['purchase','done']:
+		if purchase_state in ['draft','purchase','done']:
 			for line in self.order_line:
 				pricelist_id = self.env['product.supplierinfo'].search([\
 					('name','=',self.partner_id.id),\
@@ -34,8 +34,6 @@ class purchase_order(models.Model):
 					pricelist_id = self.env['product.supplierinfo'].create(vals)
 				else:
 					pricelist_id.write(vals)
-		if purchase_state in ['draft','purchase','done']:
-			for line in self.order_line:
 				vals_product_tmpl = {
 					'standard_price': line.price_unit
 					}
