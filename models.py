@@ -22,7 +22,7 @@ class purchase_order(models.Model):
 			order_line = vals.get('order_line',False)
 			for line in order_line:
 				line = line[2]
-				product_id = line['product_id']
+				product_id = self.env['product.product'].browse(line['product_id'])
 				pricelist_id = self.env['product.supplierinfo'].search([\
 					('name','=',self.partner_id.id),\
 					('product_tmpl_id','=',product_id.product_tmpl_id.id)])
