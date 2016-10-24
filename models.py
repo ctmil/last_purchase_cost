@@ -34,6 +34,8 @@ class purchase_order(models.Model):
 					pricelist_id = self.env['product.supplierinfo'].create(vals)
 				else:
 					pricelist_id.write(vals)
+		return res
+
 class account_invoice(models.Model):
 	_inherit = 'account.invoice'
 
