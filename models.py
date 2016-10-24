@@ -21,23 +21,25 @@ class purchase_order(models.Model):
 		if purchase_state in ['draft','purchase','done']:
 			order_line = vals.get('order_line',False)
 			for line in order_line:
+				import pdb;pdb.set_trace()
+				product_id = line['product_id']
 				pricelist_id = self.env['product.supplierinfo'].search([\
 					('name','=',self.partner_id.id),\
-					('product_tmpl_id','=',line.product_id.product_tmpl_id.id)])
+					('product_tmpl_id','=',product_id.product_tmpl_id.id)])
 				vals = {
 					'name': self.partner_id.id,
-					'product_tmpl_id': line.product_id.product_tmpl_id.id,
+					'product_tmpl_id': product_id.product_tmpl_id.id,
 					'min_qty': 0,
-					'price': line.price_unit
+					'price': line['price_unit']
 					}
 				if not pricelist_id:
 					pricelist_id = self.env['product.supplierinfo'].create(vals)
 				else:
 					pricelist_id.write(vals)
 				vals_product_tmpl = {
-					'standard_price': line.price_unit
+					'standard_price': line['price_unit']
 					}
-				product_tmpl = line.product_id.product_tmpl_id
+				product_tmpl = product_id.product_tmpl_id
 				product_tmpl.write(vals_product_tmpl)
 
 		return res
