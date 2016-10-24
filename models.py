@@ -20,22 +20,23 @@ class purchase_order(models.Model):
 		purchase_state = res.state
 		if purchase_state in ['draft','purchase','done']:
 			order_line = vals.get('order_line',False)
-			for line in order_line:
-				line = line[2]
-				product_id = self.env['product.product'].browse(line['product_id'])
-				pricelist_id = self.env['product.supplierinfo'].search([\
-					('name','=',self.partner_id.id),\
-					('product_tmpl_id','=',product_id.product_tmpl_id.id)])
-				vals = {
-					'name': res.partner_id.id,
-					'product_tmpl_id': product_id.product_tmpl_id.id,
-					'min_qty': 0,
-					'price': line['price_unit']
-					}
-				if not pricelist_id:
-					pricelist_id = self.env['product.supplierinfo'].create(vals)
-				else:
-					pricelist_id.write(vals)
+			if order_line:
+				for line in order_line:
+					line = line[2]
+					product_id = self.env['product.product'].browse(line['product_id'])
+					pricelist_id = self.env['product.supplierinfo'].search([\
+						('name','=',self.partner_id.id),\
+						('product_tmpl_id','=',product_id.product_tmpl_id.id)])
+					vals = {
+						'name': res.partner_id.id,
+						'product_tmpl_id': product_id.product_tmpl_id.id,
+						'min_qty': 0,
+						'price': line['price_unit']
+						}
+					if not pricelist_id:
+						pricelist_id = self.env['product.supplierinfo'].create(vals)
+					else:
+						pricelist_id.write(vals)
 
 		return res
 
