@@ -14,6 +14,34 @@ _logger = logging.getLogger(__name__)
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 
+	@api.model
+	def create(self, values):
+	        res = super(purchase_order, self).create(vals)
+		import pdb;pdb.set_trace()
+		purchase_state = res.state
+		if purchase_state in ['draft','purchase','done']:
+			for line in self.order_line:
+				pricelist_id = self.env['product.supplierinfo'].search([\
+					('name','=',self.partner_id.id),\
+					('product_tmpl_id','=',line.product_id.product_tmpl_id.id)])
+				vals = {
+					'name': self.partner_id.id,
+					'product_tmpl_id': line.product_id.product_tmpl_id.id,
+					'min_qty': 0,
+					'price': line.price_unit
+					}
+				if not pricelist_id:
+					pricelist_id = self.env['product.supplierinfo'].create(vals)
+				else:
+					pricelist_id.write(vals)
+				vals_product_tmpl = {
+					'standard_price': line.price_unit
+					}
+				product_tmpl = line.product_id.product_tmpl_id
+				product_tmpl.write(vals_product_tmpl)
+
+		return res
+
 
 	@api.multi
 	def write(self, vals):
