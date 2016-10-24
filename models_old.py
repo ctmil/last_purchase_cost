@@ -21,7 +21,7 @@ class purchase_requisition(osv.osv):
 				if product_id:
 					product = self.pool.get('product.product').browse(cr,uid,product_id)
 					if product.supplier_taxes_id:
-						res['taxes_id'] = [(6,0,product.supplier_taxes_id.ids)])
+						res['taxes_id'] = [(6,0,product.supplier_taxes_id.ids)]
 		return res
 
 purchase_requisition()
