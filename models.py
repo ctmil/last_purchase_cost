@@ -15,7 +15,7 @@ class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 
 	@api.model
-	def create(self, values):
+	def create(self, vals):
 	        res = super(purchase_order, self).create(vals)
 		import pdb;pdb.set_trace()
 		purchase_state = res.state
