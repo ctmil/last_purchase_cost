@@ -35,6 +35,16 @@
       </field>
     </record>
 
+    <record id="view_purchase_requisition_form_cost" model="ir.ui.view">
+      <field name="name">purchase.requisition.form.cost</field>
+      <field name="model">purchase.requisition</field>
+      <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='purchase_ids']/tree/field[@name='state']" position="after">
+		<field name="amount_total" />
+ 	  </xpath>
+      </field>
+    </record>
 
   </data>
 </openerp>
