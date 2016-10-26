@@ -46,5 +46,11 @@
       </field>
     </record>
 
+ 
+    <menuitem action="purchase.purchase_rfq" id="menu_obra_purchase_rfq"
+            parent="purchase_request.parent_menu_purchase_request"
+            sequence="0"/>
+
+
   </data>
 </openerp>
