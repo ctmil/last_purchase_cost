@@ -29,7 +29,7 @@
     'data': [
 	'account_view.xml',
 	#'security/ir.model.access.csv',
-	#'security/security.xml'
+	'security/security.xml'
     ],
     'qweb': [
     ],

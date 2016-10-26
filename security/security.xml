@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="group_personal_obra" model="res.groups">
+                <field name="name">Personal Obra</field>
+                <field name="category_id" ref="base.module_category_sales_management"/>
+                <field name="comment">Personal Obra.</field>
+                <field name="implied_ids" eval="[(4, ref('purchase_request.group_purchase_request_user'))]"/>
+        </record>
+
+
+    </data>
+</openerp>
+
