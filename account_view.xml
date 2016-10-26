@@ -73,7 +73,7 @@
     <menuitem action="purchase_request_rfq" id="menu_obra_purchase_rfq"
             groups="group_personal_obra"
             parent="purchase_request.menu_purchase_request"
-            sequence="0"/>
+            sequence="100"/>
 
 
   </data>
