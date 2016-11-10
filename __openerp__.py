@@ -27,8 +27,8 @@
     'license': 'AGPL-3',
     'depends': ['product','account','purchase','purchase_requisition','stock'],
     'data': [
-	'security/security.xml',
-	'security/ir.model.access.csv',
+	#'security/security.xml',
+	#'security/ir.model.access.csv',
 	'account_view.xml',
     ],
     'qweb': [
